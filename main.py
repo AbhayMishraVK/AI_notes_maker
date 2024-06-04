@@ -6,8 +6,33 @@ import mammoth
 from backend import process
 
 
+def write_in_sidebar():
+    with st.sidebar:
+        string = """
+        ## Steps to take Groq API key:
+
+        1. **Go to this URL**: [https://console.groq.com/keys](https://console.groq.com/keys)
+        2. Complete the login or register process.
+        3. Create your API key.
+        """
+        st.markdown(string)
+
+
+def write_app_knowledge():
+    with st.sidebar:
+        string = """
+        ## Important Knowledge to Use This App:
+
+        1. If you enter text in the text area, then YouTube video and playlist will not process.
+        2. If you enter a YouTube video link, then YouTube playlist will not process.
+        """
+        st.markdown(string)
+
+
 def create_api_key_input():
-    api_key = st.sidebar.text_input("GraQ API Key", type="password")
+    api_key = st.sidebar.text_input("Graq API Key", type="password")
+    write_in_sidebar()
+    write_app_knowledge()
     return api_key
 
 
@@ -32,12 +57,6 @@ def create_submit_button():
     return submit_button
 
 
-def display_loading_indicator():
-    if st.session_state.get("loading", False):
-        with st.spinner("Loading..."):
-            pass
-
-
 def check_before_passing(api_key, text_area, video_link, playlist_link):
     if api_key == '':
         st.error("API key is not available, please put it")
@@ -55,19 +74,11 @@ def check_before_passing(api_key, text_area, video_link, playlist_link):
 
 
 def display_docx(encoded_docx, filename='document.docx'):
-    # Decode the base64 encoded document
     docx_bytes = base64.b64decode(encoded_docx.encode())
-    # Create a BytesIO object
     docx_file = BytesIO(docx_bytes)
-
-    # Convert the document to HTML
     result = mammoth.convert_to_html(docx_file)
     html = result.value
-
-    # Reset the BytesIO object cursor to the start
     docx_file.seek(0)
-
-    # Create a container in Streamlit for displaying the HTML
     html_container = st.container()
     with html_container:
         st.markdown(
@@ -103,8 +114,11 @@ def backend_function(state):
     if pass_to_backend is None:
         return None
     else:
-        encoded_docx = process()
+        with st.spinner("Processing..."):
+            encoded_docx = process()
         display_docx(encoded_docx)
+
+
 
 
 def main():
@@ -114,7 +128,6 @@ def main():
     video_link = create_video_input()
     text_area = create_text_area()
     submit_button = create_submit_button()
-    display_loading_indicator()
 
     if api_key or (playlist_link or video_link or text_area):
         st.session_state["api_key"] = api_key
