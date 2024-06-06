@@ -1,5 +1,5 @@
 import re
-
+import time
 from langchain_core.output_parsers import StrOutputParser, JsonOutputParser
 from langchain_core.prompts import PromptTemplate
 import ast
@@ -17,8 +17,14 @@ from agent_prompts.prompt_transcript import prompt_for_transcript
 from agent_prompts.prompt_types import prompt_for_types
 from common_info import model_load
 from youtube_video_transcript import youtube_video_transcript
+from common_info import time_to_stop
+from dotenv import load_dotenv
 
-llm = model_load()
+load_dotenv()
+
+abhay_api_key = os.getenv("GRAQ_API_KEY")
+asmit_api_key = os.getenv("ASMIT_GRAQ_API_KEY")
+alfaiz_api_key = os.getenv("ALFAIZ_GRAQ_API_KEY")
 
 
 def starting_node(state):
@@ -33,6 +39,7 @@ def take_url_and_make_summary_node(state):
         template=prompt_for_transcript(transcribe_text),
         input_variables=[],
     )
+    llm = model_load(abhay_api_key, temperature=1)
     make_summary = prompt | llm | StrOutputParser
     del list_of_url[0]
     state['summary_of_video'] = make_summary
@@ -62,6 +69,7 @@ def create_intro_definition_node(state):
     summary_of_video = state['summary_of_video']
     current_topic = state['current_question']
     create_intro_defination = None
+    llm = model_load(asmit_api_key, temperature=1)
 
     if current_topic is not None:
         prompt = PromptTemplate(
@@ -87,6 +95,7 @@ def create_advantage_disadvantage_node(state):
         template=prompt_advantage_disadvantage(intro_and_defination=intro_and_defination),
         input_variables=[],
     )
+    llm = model_load(alfaiz_api_key, temperature=0.7)
     advantage_disadvantage = prompt | llm | StrOutputParser()
     advantage_disadvantage = advantage_disadvantage.invoke({})
     if advantage_disadvantage != 'Not possible':
@@ -96,11 +105,11 @@ def create_advantage_disadvantage_node(state):
 
 def create_difference_node(state):
     intro_and_defination = state['definition']
-    current_topic = state['current_question']
     prompt = PromptTemplate(
         template=prompt_for_difference(intro_and_defination),
         input_variables=[],
     )
+    llm = model_load(abhay_api_key, temperature=0.7)
     difference = prompt | llm | StrOutputParser()
     difference = difference.invoke({})
     if difference != 'Not possible':
@@ -114,6 +123,7 @@ def create_types_node(state):
         template=prompt_for_types(intro_and_defination=intro_and_defination),
         input_variables=[],
     )
+    llm = model_load(asmit_api_key, temperature=0.7)
     types = prompt | llm | StrOutputParser()
     types = types.invoke({})
     if types != 'Not possible':
@@ -127,6 +137,7 @@ def create_reason_node(state):
         template=prompt_for_reason(intro_and_defination=intro_and_defination),
         input_variables=[],
     )
+    llm = model_load(alfaiz_api_key, temperature=0.7)
     reason = prompt | llm | StrOutputParser()
     reason = reason.invoke({})
     if reason != 'Not possible':
@@ -140,6 +151,7 @@ def create_example_node(state):
         template=prompt_for_example(complete_answer=complete_string),
         input_variables=[],
     )
+    llm = model_load(abhay_api_key, temperature=1)
     example = prompt | llm | StrOutputParser()
     example = example.invoke({})
     state['example'] = example
@@ -152,9 +164,11 @@ def create_real_life_example_node(state):
         template=prompt_for_real_life_example(complete_answer=complete_string),
         input_variables=[],
     )
+    llm = model_load(asmit_api_key, temperature=1)
     real_example = prompt | llm | StrOutputParser()
     real_example = real_example.invoke({})
     state['real_life_example'] = real_example
+    time.sleep(time_to_stop)
     return state
 
 

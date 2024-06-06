@@ -45,6 +45,26 @@ def create_video_input():
     video_link = st.text_input("YouTube Video Link")
     return video_link
 
+def create_video_range_input():
+    col1, col2, col3 = st.columns([2, 2, 1])
+    with col1:
+        start_video = st.number_input("Start Video", min_value=1, step=1, help="Enter the starting video number.")
+    with col2:
+        end_video = st.number_input("End Video", min_value=1, step=1, help="Enter the ending video number.")
+    with col3:
+        process_entire_playlist = st.checkbox("Process Entire Playlist", help="Check this box to process the entire playlist.")
+
+    if process_entire_playlist:
+        video_range = "all"
+    else:
+        if start_video > end_video:
+            st.error("Start video number cannot be greater than end video number.")
+            video_range = None
+        else:
+            video_range = (start_video, end_video)
+
+    return video_range
+
 
 def create_text_area():
     text_area = st.text_area("Paste Topics (paste every new topic in new line)", placeholder=
@@ -125,6 +145,7 @@ def main():
     st.session_state.setdefault("submit_disabled", True)
     api_key = create_api_key_input()
     playlist_link = create_playlist_input()
+    video_range = create_video_range_input()
     video_link = create_video_input()
     text_area = create_text_area()
     submit_button = create_submit_button()
@@ -134,6 +155,7 @@ def main():
         st.session_state["playlist_link"] = playlist_link
         st.session_state["video_link"] = video_link
         st.session_state["text_area"] = text_area
+        st.session_state["video_range"] = video_range
     if submit_button:
         st.session_state["loading"] = True
         backend_function(st.session_state)

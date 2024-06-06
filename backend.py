@@ -32,10 +32,20 @@ def process():
     file_path = r"final_output.docx"
     delete_file_if_exists(file_path)
 
+    print(st.session_state)
+
     if st.session_state.get("playlist_link") is not None:
         playlist_link = st.session_state.get("playlist_link")
         playlist_video_url = get_playlist_video_urls(playlist_link)
-        final_result = final_graph_for_videos.invoke({'list_of_url': playlist_video_url})
+        video_range = st.session_state.get("video_range")
+
+        print(f"video range : {video_range}")
+        if video_range == "all":
+            final_result = final_graph_for_videos.invoke({'list_of_url': playlist_video_url})
+        else:
+            start_video, end_video = video_range
+            video_urls_to_process = playlist_video_url[start_video - 1:end_video]
+            final_result = final_graph_for_videos.invoke({'list_of_url': video_urls_to_process})
     elif st.session_state.get("video_link") is not None:
         video_url = [st.session_state.get("video_link")]
         final_result = final_graph_for_videos.invoke({'list_of_url': video_url})
