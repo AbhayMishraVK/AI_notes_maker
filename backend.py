@@ -38,21 +38,20 @@ def process():
         playlist_link = st.session_state.get("playlist_link")
         playlist_video_url = get_playlist_video_urls(playlist_link)
         video_range = st.session_state.get("video_range")
-
         print(f"video range : {video_range}")
         if video_range == "all":
             final_result = final_graph_for_videos.invoke({'list_of_url': playlist_video_url})
         else:
             start_video, end_video = video_range
             video_urls_to_process = playlist_video_url[start_video - 1:end_video]
-            final_result = final_graph_for_videos.invoke({'list_of_url': video_urls_to_process})
+            final_result = final_graph_for_videos.invoke({'list_of_url': video_urls_to_process}, {"recursion_limit": 1000})
     elif st.session_state.get("video_link") is not None:
         video_url = [st.session_state.get("video_link")]
-        final_result = final_graph_for_videos.invoke({'list_of_url': video_url})
+        final_result = final_graph_for_videos.invoke({'list_of_url': video_url}, {"recursion_limit": 1000})
     elif st.session_state.get("text_area") != '':
         unstructured_question = st.session_state.get("text_area")
         print(unstructured_question)
-        final_result = final_graph.invoke({'user_question': unstructured_question})
+        final_result = final_graph.invoke({'user_question': unstructured_question}, {"recursion_limit": 1000})
 
     docx_path = get_docx_path()
     docx_bytes = read_docx(docx_path)
