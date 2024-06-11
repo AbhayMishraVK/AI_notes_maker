@@ -10,16 +10,21 @@ Instructions:
 5. Describe and explain each type in 5 to 7 points maximum. If a type has subtypes, mention them as well.
 6. If it is not possible to write types for a given topic, simply respond with "Not possible" without any additional explanation.
 7. Follow the specified format strictly and do not write anything other than the types.
+8. Do not give any conclusion or summary.
+
+Word Count Guidelines:
+All headers (if directly describing, not subheaders): At least 150 words.
+All subheaders: At least 100 words.
 
 Examples:
 
 Input Example 1: Topic - Data Structures
 Output Example 1:
-Types of Data Structures:
-1. Linear Data Structures: ...
-2. Non-Linear Data Structures: ...
-3. Homogeneous Data Structures: ...
-4. Heterogeneous Data Structures: ...
+\n\n**Types of Data Structures:**\n\n
+**1. Linear Data Structures:** [Brief description in around 100 words]\n
+**2. Non-Linear Data Structures:** [Brief description in around 100 words]\n
+**3. Homogeneous Data Structures:** [Brief description in around 100 words]\n
+**4. Heterogeneous Data Structures:** [Brief description in around 100 words]\n\n
 
 Input Example 2: Topic - Algorithm Analysis
 Output Example 2: Not possible

@@ -228,7 +228,7 @@ def create_new_docx(file_path):
 def add_text_to_new_page(doc, text, add_page_break):
     if add_page_break:
         doc.add_page_break()
-    doc.add_paragraph(text)
+    add_bold_paragraph(doc, text)
     return doc
 
 
@@ -238,17 +238,27 @@ def is_doc_empty(doc):
 
 def append_notes_in_docx(file_path, complete_string):
     doc = create_new_docx(file_path)
-    complete_string_with_bold_text = make_text_bold(complete_string)
     if doc is None:
         doc = Document(file_path)
         add_page_break = not is_doc_empty(doc)
-        doc = add_text_to_new_page(doc, complete_string_with_bold_text, add_page_break)
+        doc = add_text_to_new_page(doc, complete_string, add_page_break)
     else:
-        doc.add_paragraph(complete_string_with_bold_text)
+        add_bold_paragraph(doc, complete_string)
     doc.save(file_path)
 
 
-def make_text_bold(text):
+def add_bold_paragraph(doc, text):
+    paragraph = doc.add_paragraph()
     pattern = r'\*\*(.*?)\*\*'
-    bold_text = re.sub(pattern, r'<b>\1</b>', text)
-    return bold_text
+    last_end = 0
+    for match in re.finditer(pattern, text):
+        # Add text before the bold part
+        if match.start() > last_end:
+            paragraph.add_run(text[last_end:match.start()])
+        # Add bold text
+        bold_run = paragraph.add_run(match.group(1))
+        bold_run.bold = True
+        last_end = match.end()
+    # Add remaining text after the last bold part
+    if last_end < len(text):
+        paragraph.add_run(text[last_end:])

@@ -8,8 +8,8 @@ from openai import OpenAI
 
 load_dotenv()
 
-time_to_stop = 10
-model_name = "llama3-8b-8192"
+time_to_stop = 30
+model_name = "llama3-70b-8192"
 
 
 def model_load(open_ai_api_key, temperature=1):

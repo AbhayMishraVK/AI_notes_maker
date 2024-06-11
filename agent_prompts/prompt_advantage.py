@@ -12,6 +12,11 @@ Instructions:
 7. If it is not possible to write advantages and disadvantages for a given topic, simply respond with "Not possible" without any additional explanation.  
 8. If writing only one side of advantage and disadvantage possible (e.g., Terrorism, Human Rights), then only write one of advantage or disadvantage that is possible.
 9. Follow the specified format strictly and do not write anything other than the advantages and disadvantages.
+10. Do not give any conclusion or summary.
+
+Word Count Guidelines:
+All headers (if directly describing, not subheaders): At least 150 words.
+All subheaders: At least 100 words.
 
 Examples:
 
@@ -21,15 +26,15 @@ Output Example 1: Not possible
 Input Example 2: Topic - AI
 Output Example 2:
 
-Advantages of AI:
-1. Automation: ...
-2. Decision Making: ...
-3. Assistance in Dangerous Tasks: ...
+\n\n**Advantages of AI:**\n
+**1. Automation:** [Brief description in around 100 words]\n
+**2. Decision Making:** [Brief description in around 100 words]\n
+**3. Assistance in Dangerous Tasks:** [Brief description in around 100 words]\n
 
-Disadvantages of AI:
-1. Job Displacement: ...
-2. Bias in Decision Making: ...
-3. Ethical Concerns: ...
+**Disadvantages of AI:**\n
+**1. Job Displacement:** [Brief description in around 100 words]\n
+**2. Bias in Decision Making:** [Brief description in around 100 words]\n
+**3. Ethical Concerns:** [Brief overview in description 100 words]\n\n\n
 
 Introduction and Definition of the Topic: {intro_and_defination}
 

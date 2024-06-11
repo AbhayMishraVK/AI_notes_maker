@@ -29,6 +29,7 @@ def delete_file_if_exists(file_path):
 
 
 def process():
+    print(11)
     file_path = r"final_output.docx"
     delete_file_if_exists(file_path)
 

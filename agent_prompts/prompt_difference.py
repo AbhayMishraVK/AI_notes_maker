@@ -13,23 +13,23 @@ Instructions:
 8. If it is not possible to write differences for a given topic, simply respond with "Not possible" without any additional explanation.
 9. Follow the specified format strictly and do not write anything other than the differences.
 10. If there are multiple types or categories for which you can write differences, separate them with clear spacing.
+11. Do not give any conclusion or summary.
 
 Examples:
 
 Input Example 1: Topic - HTTP vs HTTPS
 Output Example 1:
 
-Difference between HTTP and HTTPS - 
+\n\n**Difference between HTTP and HTTPS -**
+\n\n**HTTP:**\n\n
+**1. Security:** [Brief description in around 100 words]\n
+**2. Data Encryption:** [Brief description in around 100 words]\n
+**3. Data Integrity:** [Brief description in around 100 words]\n\n
 
-HTTP:
-1. Security: ...
-2. Data Encryption: ...
-3. Data Integrity: ...
-
-HTTPS:
-1. Security: ...
-2. Data Encryption: ...
-3. Data Integrity: ...
+**HTTPS:**\n
+**1. Security:** [Brief description in around 100 words]\n
+**2. Data Encryption:** [Brief description in around 100 words]\n
+**3. Data Integrity:** [Brief description in around 100 words]\n\n
 
 Input Example 2: Topic - Machine Learning
 Output Example 2: Not possible
