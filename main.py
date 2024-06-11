@@ -88,6 +88,8 @@ def check_before_passing(api_key, text_area, video_link, playlist_link):
     elif video_link != '':
         st.session_state['playlist_link'] = None
         return True
+    elif playlist_link != '':  # Added condition for playlist link
+        return True
     if text_area == '' and video_link == '' and playlist_link == '':
         st.error("Put any of the values")
         return None
